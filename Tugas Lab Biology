@@ -1,0 +1,3604 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/AryaWiguna011/Tugas/blob/main/Tugas%20Lab%20Biology\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "80tgd3_QZrqr"
+      },
+      "source": [
+        "###### SCIE6062 Computational Biology: Bioinformatics using Biopython"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "permBQOGZrq0"
+      },
+      "source": [
+        "## Introduction to BioPython\n",
+        "\n",
+        "\n",
+        "### What is BioPython?\n",
+        "Biopython is a set of freely available tools for biological computation written in Python by an international team of developers. It is a distributed collaborative effort to develop Python libraries and applications which address the needs of current and future work in bioinformatics. The source code is made available under the Biopython License, which is extremely liberal and compatible with almost every license in the world.\n",
+        "http://biopython.org/DIST/docs/tutorial/Tutorial.pdf\n",
+        "\n",
+        "![](https://drive.google.com/uc?export=view&id=1UlZt4j65UAWDVnvI5X0iKjm3VsVUoaLd)\n",
+        "\n",
+        "\n",
+        "#### Common Applications\n",
+        "+ For sequence analysis (DNA,RNA)\n",
+        "+ To do transcription and translation of DNA (Protein Synthesis)\n",
+        "+ Querying and Access BioInformatic Databases\n",
+        "    - Entrez, BLAST,GenBank,etc\n",
+        "+ 3D Structure analysis\n",
+        "+ ATGATCTCGTAA\n",
+        "+ ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATCTGTTCTCTAAA\n",
+        "\n",
+        "\n",
+        "#### Common Questions in BioInformatics\n",
+        "+ How to create a sequence?\n",
+        "+ How to Protein Synthesis (Transcription,Translation)?\n",
+        "+ How to Find GC content and Molecular weights of a protein or DNA?\n",
+        "+ How to Convert protein sequence from one-letter to three-letter code and vice versa?\n",
+        "+ How to find the Frequency of Nucleotide,Amino Acids,etc?\n",
+        "+ How to do Sequence Alignment?\n",
+        "+ How to do Similarity and homology analysis?\n",
+        "+ etc"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "WA5E7KefZrq2"
+      },
+      "source": [
+        "#### Features of BioPython\n",
+        "[](Biopython_featuresdiagram.png)\n",
+        "![](https://drive.google.com/uc?export=view&id=1U-M19NFryjlGtHZTXbVV2_BMTU2vGI8Q)\n",
+        "\n",
+        "+ [https://coggle.it/diagram/XYlLv7styC7WAgJM/t/biopython-tutorial]"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "isksyVZvZrq3"
+      },
+      "source": [
+        "## Lab 1 : Introduction to DNA Sequence\n",
+        "\n",
+        "#### Check biopython installation"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "M6B0rEEUZrq3"
+      },
+      "outputs": [],
+      "source": [
+        "#Installation (try !pip for native anaconda distribution or pip for google colab)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KJaGmf29Wpod",
+        "outputId": "6a04df79-8fa3-484a-df25-791b8ed9f4c3"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting biopython\n",
+            "  Downloading biopython-1.85-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (13 kB)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.11/dist-packages (from biopython) (1.26.4)\n",
+            "Downloading biopython-1.85-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)\n",
+            "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m3.3/3.3 MB\u001b[0m \u001b[31m19.7 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: biopython\n",
+            "Successfully installed biopython-1.85\n"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install biopython"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import drive\n",
+        "drive.mount(\"/content/drive\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "bV_C2NKzkCBh",
+        "outputId": "711995e4-1a4b-40f2-e960-b8aaafdb68a1"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount(\"/content/drive\", force_remount=True).\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "YOjQCzT6Zrq5"
+      },
+      "outputs": [],
+      "source": [
+        "# Load Bioinformatic Pkgs\n",
+        "import Bio"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "-A_87zH2Zrq6",
+        "scrolled": false
+      },
+      "outputs": [],
+      "source": [
+        "# Methods and Attributes"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9vYGrp4QZrq7"
+      },
+      "source": [
+        "#### Sequence Analysis\n",
+        "+ DNA and RNA Sequence\n",
+        "    - A Adenine\n",
+        "    - C Cytosine\n",
+        "    - G Guanine\n",
+        "    - T Thymine\n",
+        "    - U Uracil * RNA\n",
+        "    \n",
+        "\n",
+        "+ DNA Structure\n",
+        "\n",
+        "![](https://drive.google.com/uc?export=view&id=1Q79Lo8pb305Lyv2ORnikIQpj2UC2wgw2)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "alaKZ7AeZrq8"
+      },
+      "source": [
+        "#### Working with Sequences"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "qSaAmj7eZrq9"
+      },
+      "outputs": [],
+      "source": [
+        "from Bio.Seq import Seq"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "TP5MhDG98DYF",
+        "outputId": "af24aa47-7c91-426a-8e15-0824ee015683"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\u001b[31mERROR: Could not find a version that satisfies the requirement biophyton (from versions: none)\u001b[0m\u001b[31m\n",
+            "\u001b[0m\u001b[31mERROR: No matching distribution found for biophyton\u001b[0m\u001b[31m\n",
+            "\u001b[0m"
+          ]
+        }
+      ],
+      "source": [
+        "!pip install biophyton"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "6qfsyClqZrq9",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "13163e13-bd35-4678-b8f4-bb194485aed9"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['__abstractmethods__',\n",
+              " '__add__',\n",
+              " '__annotations__',\n",
+              " '__array_ufunc__',\n",
+              " '__bytes__',\n",
+              " '__class__',\n",
+              " '__contains__',\n",
+              " '__delattr__',\n",
+              " '__dict__',\n",
+              " '__dir__',\n",
+              " '__doc__',\n",
+              " '__eq__',\n",
+              " '__format__',\n",
+              " '__ge__',\n",
+              " '__getattribute__',\n",
+              " '__getitem__',\n",
+              " '__getstate__',\n",
+              " '__gt__',\n",
+              " '__hash__',\n",
+              " '__imul__',\n",
+              " '__init__',\n",
+              " '__init_subclass__',\n",
+              " '__iter__',\n",
+              " '__le__',\n",
+              " '__len__',\n",
+              " '__lt__',\n",
+              " '__module__',\n",
+              " '__mul__',\n",
+              " '__ne__',\n",
+              " '__new__',\n",
+              " '__radd__',\n",
+              " '__reduce__',\n",
+              " '__reduce_ex__',\n",
+              " '__repr__',\n",
+              " '__rmul__',\n",
+              " '__setattr__',\n",
+              " '__sizeof__',\n",
+              " '__slots__',\n",
+              " '__str__',\n",
+              " '__subclasshook__',\n",
+              " '__weakref__',\n",
+              " '_abc_impl',\n",
+              " '_data',\n",
+              " 'back_transcribe',\n",
+              " 'complement',\n",
+              " 'complement_rna',\n",
+              " 'count',\n",
+              " 'count_overlap',\n",
+              " 'defined',\n",
+              " 'defined_ranges',\n",
+              " 'endswith',\n",
+              " 'find',\n",
+              " 'index',\n",
+              " 'islower',\n",
+              " 'isupper',\n",
+              " 'join',\n",
+              " 'lower',\n",
+              " 'lstrip',\n",
+              " 'removeprefix',\n",
+              " 'removesuffix',\n",
+              " 'replace',\n",
+              " 'reverse_complement',\n",
+              " 'reverse_complement_rna',\n",
+              " 'rfind',\n",
+              " 'rindex',\n",
+              " 'rsplit',\n",
+              " 'rstrip',\n",
+              " 'search',\n",
+              " 'split',\n",
+              " 'startswith',\n",
+              " 'strip',\n",
+              " 'transcribe',\n",
+              " 'translate',\n",
+              " 'upper']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 10
+        }
+      ],
+      "source": [
+        "# Methods of Seq\n",
+        "dir(Seq)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Z_x9hKqDZrq-"
+      },
+      "outputs": [],
+      "source": [
+        "# Create A simple sequences\n",
+        "Seq1 = Seq('ATGATCTCGTAA')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ZVZQc0fxZrq_",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "facbc351-b2d8-433d-c055-05b1a4a44284"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Seq('ATGATCTCGTAA')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 12
+        }
+      ],
+      "source": [
+        "# Create an RNA\n",
+        "Seq1"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9bvbP7JBZrrA"
+      },
+      "outputs": [],
+      "source": [
+        "# Creating a Protein seq\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jErhPegFZrrA"
+      },
+      "source": [
+        "#### Sequence Manipulation\n",
+        "+ Indexing/Slicing\n",
+        "+ Join 2 Sequences\n",
+        "+ Find a Codon in a sequence (Optional)\n",
+        "+ Count the number of Nucleotides\n",
+        "+ Find the number of times a patten repeat\n",
+        "+ Subsequence Search\n",
+        "+ Plot the Nucleotide/ Base frequency"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "y3hrKz8oZrrB",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "1f2c9e53-476b-4e00-d2fb-6c49657904c7"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "12"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ],
+      "source": [
+        "# Length of our seq\n",
+        "len(Seq1)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "5_6-Ns6aZrrB",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "1c0bc0d9-975a-4d59-9ea2-c7a7f3ac2169"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "12"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 14
+        }
+      ],
+      "source": [
+        "len('ATGATCTCGTAA')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "DHzEX7wEZrrB",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "fd9ccdcb-b473-4f52-ff3b-1e91cf06a8cd"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Seq('ATG')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 15
+        }
+      ],
+      "source": [
+        "# Slicing\n",
+        "Seq1[0:3]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ibggYpqTZrrC",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "0100d3d7-7b23-458f-b6e6-c9d314b08292"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Seq('ATGATCTCGTAA')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 16
+        }
+      ],
+      "source": [
+        "# Reverse\n",
+        "Seq1[::1]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "govjN5OQZrrC"
+      },
+      "outputs": [],
+      "source": [
+        "Seq2 = Seq('ATGATCTCGTGG')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "6XaPhvbcZrrD",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "94ddd4e3-2550-4e30-ccfc-54bfd3093002"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Seq('ATGATCATGATCTCGTGG')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 24
+        }
+      ],
+      "source": [
+        "# Join Seq\n",
+        "Seq1[0:6] + Seq2"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "aVI46MrJZrrD",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "d8edf7c5-6408-45c3-ad6d-cb0802d11dd7"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "4"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 25
+        }
+      ],
+      "source": [
+        "# Find the number of Nucleotides/Base within our seq\n",
+        "# Count\n",
+        "Seq1.count('G')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "Seq1.count('A')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "eTS4T2gsk7qk",
+        "outputId": "fbcff598-7fcc-40ab-a16b-e6052638e8fe"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 26
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "sKzQ9SdcZrrE",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f139608f-c80b-461c-fcff-09b00e214b53"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "1"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 27
+        }
+      ],
+      "source": [
+        "# Count the number of codon (3B) within a seq\n",
+        "Seq1.count('ATG')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Y_hir105ZrrE",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "a0cfe7da-0b4c-459a-ae94-d1d7525c1443"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 28
+        }
+      ],
+      "source": [
+        "# Find the position/location of a nucleotide\n",
+        "Seq1.find('G')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "Seq1"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "te-9NX-Wlou3",
+        "outputId": "13aeff66-cb54-4771-e223-24eff3b5bda9"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Seq('ATGATCTCGTGG')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 29
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "St0avENZZrrF",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "65d8d7ec-5a49-4ba9-8692-9e56bb692cc4"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "11"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 30
+        }
+      ],
+      "source": [
+        "# Find the position/location of a nucleotide from the right\n",
+        "Seq1.rfind('G')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ufe3KwLnZrrF",
+        "scrolled": true,
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "38f33464-bcef-4be4-816d-a2442581b3b4"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 31
+        }
+      ],
+      "source": [
+        "# Find the location/index using index\n",
+        "Seq1.index('G')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "5NW-jUE4ZrrF",
+        "scrolled": true,
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "d8209ff0-9fca-41fb-f562-5b3c15c4dd49"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "11"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 32
+        }
+      ],
+      "source": [
+        "# Find the location/index using index\n",
+        "Seq1.rindex('G')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2ROka1NOZrrG"
+      },
+      "source": [
+        "#### Subsequences\n",
+        "+ Search for a DNA subseq in sequence, return list of [subseq, positions]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jsy6BWTgZrrG"
+      },
+      "outputs": [],
+      "source": [
+        "# import nt_search from Bio.SeqUtils package\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "-OAiB6bVZrrG"
+      },
+      "outputs": [],
+      "source": [
+        "# create main and subsequence\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "z0SGfa_9ZrrG"
+      },
+      "outputs": [],
+      "source": [
+        "# Search the subsequence from main sequence\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "2kLotrLRZrrH"
+      },
+      "source": [
+        "#### Plot of Frequency of Nucleotides/Base"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "VlkbIYJOZrrH"
+      },
+      "outputs": [],
+      "source": [
+        "#Install matplotlib\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9eSshHTGZrrH"
+      },
+      "outputs": [],
+      "source": [
+        "# import matplotlib.pyplot and assign as plt\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "PQSPe7UPZrrI"
+      },
+      "outputs": [],
+      "source": [
+        "# import Counter function from from collections package\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9_Kv8zqpZrrI"
+      },
+      "outputs": [],
+      "source": [
+        "# create sequence and count the Nucletide frequency\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Vz8guAGCZrrI"
+      },
+      "outputs": [],
+      "source": [
+        "# plot the DNA sequence Nucletide frequency\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from Bio.SeqUtils import nt_search"
+      ],
+      "metadata": {
+        "id": "abcp7iVtmGXo"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "main_Seq = Seq('ACTATT')\n",
+        "subseq = Seq('ATT')"
+      ],
+      "metadata": {
+        "id": "iAQifpkYmOY3"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nt_search(str(main_Seq),str(subseq))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "MuW2v3_7mVq0",
+        "outputId": "da41097f-e0ee-4e07-a3a3-000150745229"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['ATT', 3]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 36
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "pip install matplotlib"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "i3Hu9If9mcdZ",
+        "outputId": "4c085e30-d526-4d6a-8aa7-8fa159614f40"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: matplotlib in /usr/local/lib/python3.11/dist-packages (3.10.0)\n",
+            "Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (1.3.1)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (0.12.1)\n",
+            "Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (4.55.8)\n",
+            "Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (1.4.8)\n",
+            "Requirement already satisfied: numpy>=1.23 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (1.26.4)\n",
+            "Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (24.2)\n",
+            "Requirement already satisfied: pillow>=8 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (11.1.0)\n",
+            "Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (3.2.1)\n",
+            "Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.11/dist-packages (from matplotlib) (2.8.2)\n",
+            "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil>=2.7->matplotlib) (1.17.0)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import matplotlib.pyplot as plt"
+      ],
+      "metadata": {
+        "id": "XEkahto2mxfx"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from collections import Counter"
+      ],
+      "metadata": {
+        "id": "bLC4stIjmynD"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq = Seq('ATGATCTCGTAA')"
+      ],
+      "metadata": {
+        "id": "8Xq2Ob15m_eL"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_freq = Counter(dna_seq)\n",
+        "dna_freq"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "rgg_-8cIm_rp",
+        "outputId": "c2882c66-42be-4f20-f6ce-313063d90d52"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Counter({'A': 4, 'T': 4, 'G': 2, 'C': 2})"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 41
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.bar(dna_freq.keys(),dna_freq.values())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 447
+        },
+        "id": "gC9StMLinT03",
+        "outputId": "449a8889-574b-414c-9f2e-6980cc469069"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<BarContainer object of 4 artists>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 42
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAiMAAAGdCAYAAADAAnMpAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvlHJYcgAAAAlwSFlzAAAPYQAAD2EBqD+naQAAHsBJREFUeJzt3X9sVfX9x/HXBeQWhFZQaEu5KqakiFAKReSWRHArVtYwmiyEEE0ZARJdMSCLbjUGpkYvCcHCAvJjwjrHuiIqkACCXU0hjioUqAOUZkylRXuLTuiFbrtqe79/LF53v7Slpz98cy/PR3KS3XM/n3s+N2cJT0/PvdcVCoVCAgAAMNLLegEAAODGRowAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU8QIAAAwRYwAAABTfawX0BEtLS36/PPPNXDgQLlcLuvlAACADgiFQrp8+bKGDRumXr3avv4RFTHy+eefy+PxWC8DAAB0Ql1dnYYPH97m81ERIwMHDpT03zcTHx9vvBoAANARgUBAHo8n/O94W6IiRr7700x8fDwxAgBAlLnWLRbcwAoAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAVJdiZOXKlXK5XFq6dGm743bs2KFRo0YpLi5OY8eO1b59+7pyWAAAEEM6HSNHjx7Vpk2blJ6e3u64w4cPa+7cuVqwYIFOnDihvLw85eXl6dSpU509NAAAiCGdipErV67o4Ycf1u9+9zsNGjSo3bFr167VQw89pCeffFJ33323nn/+eU2YMEHr1q3r1IIBAEBs6VSMFBQUKDc3V9nZ2dccW1lZedW4nJwcVVZWtjknGAwqEAhEbAAAIDb1cTqhtLRUx48f19GjRzs03u/3KzExMWJfYmKi/H5/m3N8Pp+effZZp0vrlDt/vfcHOQ6u9unK3B59fc6tnZ4+twBii6MrI3V1dVqyZIn+9Kc/KS4urqfWpMLCQjU2Noa3urq6HjsWAACw5ejKyLFjx3ThwgVNmDAhvK+5uVmHDh3SunXrFAwG1bt374g5SUlJamhoiNjX0NCgpKSkNo/jdrvldrudLA0AAEQpR1dGfvzjH+vkyZOqrq4ObxMnTtTDDz+s6urqq0JEkrxer8rLyyP2lZWVyev1dm3lAAAgJji6MjJw4ECNGTMmYt/NN9+sW2+9Nbw/Pz9fKSkp8vl8kqQlS5Zo6tSpWr16tXJzc1VaWqqqqipt3ry5m94CAACIZt3+Day1tbWqr68PP87KylJJSYk2b96scePG6fXXX9euXbuuihoAAHBjcvxpmv+voqKi3ceSNHv2bM2ePburhwIAADGI36YBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKYcxciGDRuUnp6u+Ph4xcfHy+v16q233mpzfHFxsVwuV8QWFxfX5UUDAIDY0cfJ4OHDh2vlypUaOXKkQqGQ/vCHP2jWrFk6ceKE7rnnnlbnxMfHq6amJvzY5XJ1bcUAACCmOIqRmTNnRjx+4YUXtGHDBr333nttxojL5VJSUlLnVwgAAGJap+8ZaW5uVmlpqZqamuT1etscd+XKFd1xxx3yeDyaNWuWTp8+fc3XDgaDCgQCERsAAIhNjmPk5MmTGjBggNxutx599FHt3LlTo0ePbnVsWlqatm7dqt27d2vbtm1qaWlRVlaWzp8/3+4xfD6fEhISwpvH43G6TAAAECUcx0haWpqqq6v1/vvv67HHHtO8efP04YcftjrW6/UqPz9fGRkZmjp1qt58800NGTJEmzZtavcYhYWFamxsDG91dXVOlwkAAKKEo3tGJKlv375KTU2VJGVmZuro0aNau3btNQNDkm666SaNHz9eZ8+ebXec2+2W2+12ujQAABCFuvw9Iy0tLQoGgx0a29zcrJMnTyo5ObmrhwUAADHC0ZWRwsJCzZgxQ7fffrsuX76skpISVVRU6MCBA5Kk/Px8paSkyOfzSZKee+45TZ48Wampqbp06ZJWrVqlc+fOaeHChd3/TgAAQFRyFCMXLlxQfn6+6uvrlZCQoPT0dB04cEDTp0+XJNXW1qpXr+8vtly8eFGLFi2S3+/XoEGDlJmZqcOHD7d5wysAALjxOIqRLVu2tPt8RUVFxOOioiIVFRU5XhQAALhx8Ns0AADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMCUoxjZsGGD0tPTFR8fr/j4eHm9Xr311lvtztmxY4dGjRqluLg4jR07Vvv27evSggEAQGxxFCPDhw/XypUrdezYMVVVVelHP/qRZs2apdOnT7c6/vDhw5o7d64WLFigEydOKC8vT3l5eTp16lS3LB4AAEQ/VygUCnXlBQYPHqxVq1ZpwYIFVz03Z84cNTU1ac+ePeF9kydPVkZGhjZu3NjhYwQCASUkJKixsVHx8fFdWe5V7vz13m59PXTcpytze/T1Obd2evrcAogOHf33u9P3jDQ3N6u0tFRNTU3yer2tjqmsrFR2dnbEvpycHFVWVrb72sFgUIFAIGIDAACxyXGMnDx5UgMGDJDb7dajjz6qnTt3avTo0a2O9fv9SkxMjNiXmJgov9/f7jF8Pp8SEhLCm8fjcbpMAAAQJRzHSFpamqqrq/X+++/rscce07x58/Thhx9266IKCwvV2NgY3urq6rr19QEAwPWjj9MJffv2VWpqqiQpMzNTR48e1dq1a7Vp06arxiYlJamhoSFiX0NDg5KSkto9htvtltvtdro0AAAQhbr8PSMtLS0KBoOtPuf1elVeXh6xr6ysrM17TAAAwI3H0ZWRwsJCzZgxQ7fffrsuX76skpISVVRU6MCBA5Kk/Px8paSkyOfzSZKWLFmiqVOnavXq1crNzVVpaamqqqq0efPm7n8nAAAgKjmKkQsXLig/P1/19fVKSEhQenq6Dhw4oOnTp0uSamtr1avX9xdbsrKyVFJSomeeeUZPP/20Ro4cqV27dmnMmDHd+y4AAEDUchQjW7Zsaff5ioqKq/bNnj1bs2fPdrQoAABw4+C3aQAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKUcx4vP5dO+992rgwIEaOnSo8vLyVFNT0+6c4uJiuVyuiC0uLq5LiwYAALHDUYwcPHhQBQUFeu+991RWVqZvvvlGDz74oJqamtqdFx8fr/r6+vB27ty5Li0aAADEjj5OBu/fvz/icXFxsYYOHapjx47p/vvvb3Oey+VSUlJS51YIAABiWpfuGWlsbJQkDR48uN1xV65c0R133CGPx6NZs2bp9OnT7Y4PBoMKBAIRGwAAiE2djpGWlhYtXbpUU6ZM0ZgxY9ocl5aWpq1bt2r37t3atm2bWlpalJWVpfPnz7c5x+fzKSEhIbx5PJ7OLhMAAFznOh0jBQUFOnXqlEpLS9sd5/V6lZ+fr4yMDE2dOlVvvvmmhgwZok2bNrU5p7CwUI2NjeGtrq6us8sEAADXOUf3jHxn8eLF2rNnjw4dOqThw4c7mnvTTTdp/PjxOnv2bJtj3G633G53Z5YGAACijKMrI6FQSIsXL9bOnTv1zjvvaMSIEY4P2NzcrJMnTyo5OdnxXAAAEHscXRkpKChQSUmJdu/erYEDB8rv90uSEhIS1K9fP0lSfn6+UlJS5PP5JEnPPfecJk+erNTUVF26dEmrVq3SuXPntHDhwm5+KwAAIBo5ipENGzZIkqZNmxax//e//71+/vOfS5Jqa2vVq9f3F1wuXryoRYsWye/3a9CgQcrMzNThw4c1evTorq0cAADEBEcxEgqFrjmmoqIi4nFRUZGKioocLQoAANw4+G0aAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGDKUYz4fD7de++9GjhwoIYOHaq8vDzV1NRcc96OHTs0atQoxcXFaezYsdq3b1+nFwwAAGKLoxg5ePCgCgoK9N5776msrEzffPONHnzwQTU1NbU55/Dhw5o7d64WLFigEydOKC8vT3l5eTp16lSXFw8AAKKfKxQKhTo7+YsvvtDQoUN18OBB3X///a2OmTNnjpqamrRnz57wvsmTJysjI0MbN27s0HECgYASEhLU2Nio+Pj4zi63VXf+em+3vh467tOVuT36+pxbOz19bgFEh47++92le0YaGxslSYMHD25zTGVlpbKzsyP25eTkqLKyss05wWBQgUAgYgMAALGpT2cntrS0aOnSpZoyZYrGjBnT5ji/36/ExMSIfYmJifL7/W3O8fl8evbZZzu7NAAxjqtednryqhfn1Y711cxOXxkpKCjQqVOnVFpa2p3rkSQVFhaqsbExvNXV1XX7MQAAwPWhU1dGFi9erD179ujQoUMaPnx4u2OTkpLU0NAQsa+hoUFJSUltznG73XK73Z1ZGgAAiDKOroyEQiEtXrxYO3fu1DvvvKMRI0Zcc47X61V5eXnEvrKyMnm9XmcrBQAAMcnRlZGCggKVlJRo9+7dGjhwYPi+j4SEBPXr10+SlJ+fr5SUFPl8PknSkiVLNHXqVK1evVq5ubkqLS1VVVWVNm/e3M1vBQAARCNHV0Y2bNigxsZGTZs2TcnJyeFt+/bt4TG1tbWqr68PP87KylJJSYk2b96scePG6fXXX9euXbvavekVAADcOBxdGenIV5JUVFRctW/27NmaPXu2k0MBAIAbBL9NAwAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMESMAAMAUMQIAAEwRIwAAwBQxAgAATBEjAADAFDECAABMOY6RQ4cOaebMmRo2bJhcLpd27drV7viKigq5XK6rNr/f39k1AwCAGOI4RpqamjRu3DitX7/e0byamhrV19eHt6FDhzo9NAAAiEF9nE6YMWOGZsyY4fhAQ4cO1S233OJ4HgAAiG0/2D0jGRkZSk5O1vTp0/XXv/613bHBYFCBQCBiAwAAsanHYyQ5OVkbN27UG2+8oTfeeEMej0fTpk3T8ePH25zj8/mUkJAQ3jweT08vEwAAGHH8Zxqn0tLSlJaWFn6clZWlf/zjHyoqKtIf//jHVucUFhZq2bJl4ceBQIAgAQAgRvV4jLRm0qRJevfdd9t83u12y+12/4ArAgAAVky+Z6S6ulrJyckWhwYAANcZx1dGrly5orNnz4Yff/LJJ6qurtbgwYN1++23q7CwUJ999pleffVVSdKaNWs0YsQI3XPPPfrPf/6jV155Re+8847efvvt7nsXAAAgajmOkaqqKj3wwAPhx9/d2zFv3jwVFxervr5etbW14ee//vpr/fKXv9Rnn32m/v37Kz09XX/5y18iXgMAANy4HMfItGnTFAqF2ny+uLg44vFTTz2lp556yvHCAADAjYHfpgEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAAphzHyKFDhzRz5kwNGzZMLpdLu3btuuaciooKTZgwQW63W6mpqSouLu7EUgEAQCxyHCNNTU0aN26c1q9f36Hxn3zyiXJzc/XAAw+ourpaS5cu1cKFC3XgwAHHiwUAALGnj9MJM2bM0IwZMzo8fuPGjRoxYoRWr14tSbr77rv17rvvqqioSDk5OU4PDwAAYkyP3zNSWVmp7OzsiH05OTmqrKxsc04wGFQgEIjYAABAbOrxGPH7/UpMTIzYl5iYqEAgoH//+9+tzvH5fEpISAhvHo+np5cJAACMXJefpiksLFRjY2N4q6urs14SAADoIY7vGXEqKSlJDQ0NEfsaGhoUHx+vfv36tTrH7XbL7Xb39NIAAMB1oMevjHi9XpWXl0fsKysrk9fr7elDAwCAKOA4Rq5cuaLq6mpVV1dL+u9Hd6urq1VbWyvpv39iyc/PD49/9NFH9fHHH+upp57SmTNn9PLLL+u1117TE0880T3vAAAARDXHMVJVVaXx48dr/PjxkqRly5Zp/PjxWr58uSSpvr4+HCaSNGLECO3du1dlZWUaN26cVq9erVdeeYWP9QIAAEmduGdk2rRpCoVCbT7f2rerTps2TSdOnHB6KAAAcAO4Lj9NAwAAbhzECAAAMEWMAAAAU8QIAAAwRYwAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU8QIAAAwRYwAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU8QIAAAwRYwAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU8QIAAAwRYwAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU8QIAAAwRYwAAABTxAgAADBFjAAAAFPECAAAMEWMAAAAU52KkfXr1+vOO+9UXFyc7rvvPh05cqTNscXFxXK5XBFbXFxcpxcMAABii+MY2b59u5YtW6YVK1bo+PHjGjdunHJycnThwoU258THx6u+vj68nTt3rkuLBgAAscNxjLz00ktatGiR5s+fr9GjR2vjxo3q37+/tm7d2uYcl8ulpKSk8JaYmNilRQMAgNjhKEa+/vprHTt2TNnZ2d+/QK9eys7OVmVlZZvzrly5ojvuuEMej0ezZs3S6dOn2z1OMBhUIBCI2AAAQGxyFCNffvmlmpubr7qykZiYKL/f3+qctLQ0bd26Vbt379a2bdvU0tKirKwsnT9/vs3j+Hw+JSQkhDePx+NkmQAAIIr0+KdpvF6v8vPzlZGRoalTp+rNN9/UkCFDtGnTpjbnFBYWqrGxMbzV1dX19DIBAICRPk4G33bbberdu7caGhoi9jc0NCgpKalDr3HTTTdp/PjxOnv2bJtj3G633G63k6UBAIAo5ejKSN++fZWZmany8vLwvpaWFpWXl8vr9XboNZqbm3Xy5EklJyc7WykAAIhJjq6MSNKyZcs0b948TZw4UZMmTdKaNWvU1NSk+fPnS5Ly8/OVkpIin88nSXruuec0efJkpaam6tKlS1q1apXOnTunhQsXdu87AQAAUclxjMyZM0dffPGFli9fLr/fr4yMDO3fvz98U2ttba169fr+gsvFixe1aNEi+f1+DRo0SJmZmTp8+LBGjx7dfe8CAABELccxIkmLFy/W4sWLW32uoqIi4nFRUZGKioo6cxgAAHAD4LdpAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAIApYgQAAJgiRgAAgCliBAAAmCJGAACAKWIEAACYIkYAAICpTsXI+vXrdeeddyouLk733Xefjhw50u74HTt2aNSoUYqLi9PYsWO1b9++Ti0WAADEHscxsn37di1btkwrVqzQ8ePHNW7cOOXk5OjChQutjj98+LDmzp2rBQsW6MSJE8rLy1NeXp5OnTrV5cUDAIDo5zhGXnrpJS1atEjz58/X6NGjtXHjRvXv319bt25tdfzatWv10EMP6cknn9Tdd9+t559/XhMmTNC6deu6vHgAABD9+jgZ/PXXX+vYsWMqLCwM7+vVq5eys7NVWVnZ6pzKykotW7YsYl9OTo527drV5nGCwaCCwWD4cWNjoyQpEAg4WW6HtAT/1e2viY7pifP5vzi3dji3sasnzy3n1U5PndfvXjcUCrU7zlGMfPnll2publZiYmLE/sTERJ05c6bVOX6/v9Xxfr+/zeP4fD49++yzV+33eDxOlovrXMIa6xWgp3BuYxfnNjb19Hm9fPmyEhIS2nzeUYz8UAoLCyOuprS0tOirr77SrbfeKpfLZbiy60sgEJDH41FdXZ3i4+Otl4NuwnmNXZzb2MW5bV0oFNLly5c1bNiwdsc5ipHbbrtNvXv3VkNDQ8T+hoYGJSUltTonKSnJ0XhJcrvdcrvdEftuueUWJ0u9ocTHx/N//hjEeY1dnNvYxbm9WntXRL7j6AbWvn37KjMzU+Xl5eF9LS0tKi8vl9frbXWO1+uNGC9JZWVlbY4HAAA3Fsd/plm2bJnmzZuniRMnatKkSVqzZo2ampo0f/58SVJ+fr5SUlLk8/kkSUuWLNHUqVO1evVq5ebmqrS0VFVVVdq8eXP3vhMAABCVHMfInDlz9MUXX2j58uXy+/3KyMjQ/v37wzep1tbWqlev7y+4ZGVlqaSkRM8884yefvppjRw5Urt27dKYMWO6713coNxut1asWHHVn7QQ3TivsYtzG7s4t13jCl3r8zYAAAA9iN+mAQAApogRAABgihgBAACmiBEAAGCKGIlSlZWV6t27t3Jzc62Xgm7gcrna3X7zm99YLxFd4Pf7tWTJEqWmpiouLk6JiYmaMmWKNmzYoH/9i99jiXZ+v1+PP/647rrrLrndbnk8Hs2cOfOq79hC267Lr4PHtW3ZskWPP/64tmzZos8///yaX7WL61t9fX34f2/fvl3Lly9XTU1NeN+AAQMsloVu8PHHH2vKlCm65ZZb9OKLL2rs2LFyu906efKkNm/erJSUFP30pz+1XiY66dNPPw2f31WrVmns2LH65ptvdODAARUUFLT5u22IxEd7o9CVK1eUnJysqqoqrVixQunp6Xr66aetl4VuUlxcrKVLl+rSpUvWS0E3eOihh3T69GmdOXNGN99881XPh0IhfnMriv3kJz/R3/72N9XU1Fx1fi9dusRPmXQQf6aJQq+99ppGjRqltLQ0PfLII9q6des1f54ZwA/vn//8p95++20VFBS0GiKSCJEo9tVXX2n//v1tnl9CpOOIkSi0ZcsWPfLII5L++19djY2NOnjwoPGqAPx/Z8+eVSgUUlpaWsT+2267TQMGDNCAAQP0q1/9ymh16Krvzu+oUaOslxL1iJEoU1NToyNHjmju3LmSpD59+mjOnDnasmWL8coAdNSRI0dUXV2te+65R8Fg0Ho56CSuSHcfbmCNMlu2bNG3334bccNqKBSS2+3WunXrOvRTzQB+GKmpqXK5XBE3I0vSXXfdJUnq16+fxbLQTUaOHCmXy8VNqt2AKyNR5Ntvv9Wrr76q1atXq7q6Orx98MEHGjZsmP785z9bLxHA/7j11ls1ffp0rVu3Tk1NTdbLQTcbPHiwcnJytH79+lbPLzehdxwxEkX27NmjixcvasGCBRozZkzE9rOf/Yw/1QDXoZdfflnffvutJk6cqO3bt+ujjz5STU2Ntm3bpjNnzqh3797WS0QXrF+/Xs3NzZo0aZLeeOMN/f3vf9dHH32k3/72t/J6vdbLixp8tDeKzJw5Uy0tLdq7d+9Vzx05ckT33XefPvjgA6WnpxusDt2Fj/bGnvr6er344ovau3evzp8/L7fbrdGjR2v27Nn6xS9+of79+1svEV1QX1+vF154QXv27FF9fb2GDBmizMxMPfHEE5o2bZr18qICMQIAAEzxZxoAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACmiBEAAGCKGAEAAKaIEQAAYIoYAQAApogRAABgihgBAACm/g9B2A/rIBjpHQAAAABJRU5ErkJggg==\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq1 = ('ATGCATGGTGCGCGA')\n",
+        "dna_seq2 = ('ATTTGTGCTCCTGGA')"
+      ],
+      "metadata": {
+        "id": "ocj3XU45nTk0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "freq1 = Counter(dna_seq1)\n",
+        "freq2 = Counter(dna_seq2)\n",
+        "freq1\n",
+        "freq2"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "goE-7Iwen8B5",
+        "outputId": "fc59dd5e-48f7-4e85-98e7-22fe39dde8f1"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Counter({'A': 2, 'T': 6, 'G': 4, 'C': 3})"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 47
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "combined_freq = Counter(freq1) + Counter(freq2)"
+      ],
+      "metadata": {
+        "id": "5a6GydgZn7k-"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.bar(freq1.keys(), freq1.values())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 447
+        },
+        "id": "vKwlji5aoT6F",
+        "outputId": "1589cef9-01da-4396-c198-52143f7ab8af"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<BarContainer object of 4 artists>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 49
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAhYAAAGdCAYAAABO2DpVAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjAsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvlHJYcgAAAAlwSFlzAAAPYQAAD2EBqD+naQAAFGNJREFUeJzt3X+slQX9wPHPFcYBhXsRRIQ4/mAUhIg1UMeohqWZIZVrzjFYzLn+qJuKrM2uf4isyaW1nDXppg5jrVBqTWsysXID/xDih8PM9CYp8xqgpXIP0Dop93z/aN1vN36ey+dwONfXa3s2z3Of5zwf93h3357nOec0VSqVSgAAJDij3gMAAAOHsAAA0ggLACCNsAAA0ggLACCNsAAA0ggLACCNsAAA0gw+1Qfs6emJ3bt3x4gRI6KpqelUHx4A6IdKpRL79++P8ePHxxlnHP11iVMeFrt3745isXiqDwsAJOjq6ooJEyYc9eenPCxGjBgREf8erLm5+VQfHgDoh1KpFMVisffv+NGc8rD4z+WP5uZmYQEADeZ4tzG4eRMASCMsAIA0wgIASCMsAIA0wgIASCMsAIA0wgIASCMsAIA0wgIASCMsAIA0VYfFX//611i4cGGMHj06hg0bFpdcckls27atFrMBAA2mqu8Keffdd2P27Nlx5ZVXxpNPPhljxoyJV155Jc4+++xazQcANJCqwuI73/lOFIvF+PGPf9y77qKLLkofCgBoTFVdCvn1r38dM2fOjBtuuCHOPffc+PjHPx4PPfTQMfcpl8tRKpX6LADAwFTVKxavvvpqdHR0xJIlS+LOO++MrVu3xq233hpDhgyJRYsWHXGf9vb2WLZsWcqwwMBy4bfW1XuED6xdK+bWewQGqKZKpVI50Y2HDBkSM2fOjGeffbZ33a233hpbt26NTZs2HXGfcrkc5XK593GpVIpisRjd3d3R3Nx8EqMDjU5Y1I+woFqlUilaWlqO+/e7qksh48aNi6lTp/ZZ99GPfjRef/31o+5TKBSiubm5zwIADExVhcXs2bOjs7Ozz7o///nPccEFF6QOBQA0pqrC4vbbb4/NmzfH8uXLY+fOnbFmzZp48MEHo7W1tVbzAQANpKqwuOyyy+Kxxx6LRx55JKZNmxbf/va347777osFCxbUaj4AoIFU9a6QiIjrrrsurrvuulrMAgA0ON8VAgCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQBphAQCkERYAQJqqwuLuu++OpqamPsuUKVNqNRsA0GAGV7vDxRdfHL/73e/+/wkGV/0UAMAAVXUVDB48OM4777xazAIANLiq77F45ZVXYvz48TFx4sRYsGBBvP7668fcvlwuR6lU6rMAAANTVWFxxRVXxOrVq2P9+vXR0dERr732Wnzyk5+M/fv3H3Wf9vb2aGlp6V2KxeJJDw0AnJ6aKpVKpb8779u3Ly644IK499574+abbz7iNuVyOcrlcu/jUqkUxWIxuru7o7m5ub+HBgaAC7+1rt4jfGDtWjG33iPQYEqlUrS0tBz37/dJ3Xk5cuTI+MhHPhI7d+486jaFQiEKhcLJHAYAaBAn9TkWBw4ciL/85S8xbty4rHkAgAZWVVh885vfjI0bN8auXbvi2Wefjeuvvz4GDRoU8+fPr9V8AEADqepSyBtvvBHz58+Pt99+O8aMGROf+MQnYvPmzTFmzJhazQcANJCqwuLRRx+t1RwAwADgu0IAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDTCAgBIIywAgDQnFRYrVqyIpqamWLx4cdI4AEAj63dYbN26NR544IGYPn165jwAQAPrV1gcOHAgFixYEA899FCcffbZ2TMBAA2qX2HR2toac+fOjauuuip7HgCggQ2udodHH300nnvuudi6desJbV8ul6NcLvc+LpVK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\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.bar(freq2.keys(), freq2.values())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 447
+        },
+        "id": "_360a6G-n7UN",
+        "outputId": "1b8ef560-ebf2-49cc-f2a0-e8797bf11b0a"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<BarContainer object of 4 artists>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 50
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "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tMEAgNpTdljMmDEjSqVSJWYBAGqc77EAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgjbAAANIICwAgTa/CYtmyZXHFFVfEgAEDYurUqbF58+bsuQCAGlR2WKxevToWLlwYixYtihdffDGuvvrquPHGG+PAgQOVmA8AqCFlh8WDDz4Y3/zmN+O2226LcePGxU9+8pO44IIL4oknnqjEfABADakvZ+N///vfsW3btmhpaeled95558X1118fL7zwwgn3KRaLUSwWu193dHRERERnZ2dv5j2lruI/038nH04lzud/c26rp5Ln1nmtHv/N9l2VOrfv/95SqXTK7coKi3/84x9x7NixGD58eI/1w4cPj1dfffWE+7S2tsbixYuPW9/U1FTOoTnLNT5U7QmoFOe2b3Je+65Kn9tDhw5FY2PjSX9eVlj0RktLSyxcuLD7dVdXV7zzzjsxZMiQqKurq/Tha0ZnZ2c0NTVFe3t7NDQ0VHsckjivfZdz23c5tydWKpXi0KFDMXLkyFNuV1ZYXHLJJdGvX7946623eqx/66234tJLLz3hPoVCIQqFQo91gwcPLuew55SGhgb/IvdBzmvf5dz2Xc7t8U71TsX7yrp5s3///jF58uR45plnutd1dXXFM888E9OmTSt/QgCgTyn7UsjChQtj3rx5MWXKlLj22mvjoYceiiNHjsRtt91WifkAgBpSdljccsst8fe//z3uu+++2L9/f3ziE5+I9evXH3dDJ+UpFAqxaNGi4y4bUduc177Lue27nNvTU1f6oM+NAAB8SJ4VAgCkERYAQBphAQCkERYAQBphcRZ44YUXol+/fjFr1qxqj0KCurq6Uy73339/tUfkNOzfvz/uvPPOGDNmTAwYMCCGDx8e06dPj+XLl8c//+n5GLVs//79MX/+/Bg9enQUCoVoamqK2bNn9/juJj5Yxb/Smw/W1tYW8+fPj7a2tti7d+8Hfl0qZ7d9+/Z1//Pq1avjvvvui507d3avGzhwYDXGIsFrr70W06dPj8GDB8eSJUti4sSJUSgUYseOHfHYY4/FRz7ykfjyl79c7THphT179nSf2x/84AcxceLEeO+992LDhg3R3Nx80udhcTwfN62yw4cPx4gRI2Lr1q2xaNGimDRpUtx7773VHoskK1asiAULFsTBgwerPQoJvvjFL8bLL78cr776alx44YXH/bxUKnkGUo360pe+FH/84x9j586dx53bgwcPehRFGVwKqbJf/OIXMXbs2Ljqqqti7ty58cQTT3zgI2mBM+/tt9+O3/3ud9Hc3HzCqIgIUVGj3nnnnVi/fv1Jz62oKI+wqLK2traYO3duRPzn/4Y6Ojpi48aNVZ4K+F+7d++OUqkUV111VY/1l1xySQwcODAGDhwYd999d5Wm43S8f27Hjh1b7VH6BGFRRTt37ozNmzfHrbfeGhER9fX1ccstt0RbW1uVJwM+rM2bN8f27dtj/PjxUSwWqz0OveBd4lxu3qyitra2OHr0aI+bNUulUhQKhXjkkUc+1ONpgTNjzJgxUVdX1+NG3IiI0aNHR0TE+eefX42xSPDRj3406urq3KCZxDsWVXL06NH42c9+Fj/84Q9j+/bt3ctLL70UI0eOjCeffLLaIwL/ZciQIXHDDTfEI488EkeOHKn2OCS6+OKL48Ybb4xly5ad8Ny6+bo8wqJK1q5dG++++27cfvvtMWHChB7L17/+dZdD4Cz04x//OI4ePRpTpkyJ1atXxyuvvBI7d+6Mn//85/Hqq69Gv379qj0ivbRs2bI4duxYXHvttfGrX/0qdu3aFa+88ko8/PDDMW3atGqPV1N83LRKZs+eHV1dXbFu3brjfrZ58+aYOnVqvPTSSzFp0qQqTEcWHzfte/bt2xdLliyJdevWxZtvvhmFQiHGjRsXN998c3z729+OCy64oNoj0kv79u2LBx54INauXRv79u2LoUOHxuTJk+Ouu+6KGTNmVHu8miEsAIA0LoUAAGmEBQCQRlgAAGmEBQCQRlgAAGmEBQCQRlgAAGmEBQCQRlgAAGmEBQCQRlgAAGmEBQCQ5v8AgVBWofxavqkAAAAASUVORK5CYII=\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.bar(combined_freq.keys(), combined_freq.values())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 447
+        },
+        "id": "0KMtfL_on6aF",
+        "outputId": "1e991687-1bd8-48b9-851a-5e41c7f4497f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<BarContainer object of 4 artists>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 51
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 640x480 with 1 Axes>"
+            ],
+            "image/png": "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\n"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "DOobFGnun6vK"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "k6YsKHbnmqPr"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qdZWcOlRZrrI"
+      },
+      "source": [
+        "## LAB 2 DNA Composition Analysis"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "gm9kM39KZrrJ"
+      },
+      "source": [
+        "#### GC Contents In DNA\n",
+        "+ GC-content (or guanine-cytosine content) is the percentage of nitrogenous bases in a DNA or RNA molecule\n",
+        "that are either Guanine (G) or Cytosine (C)\n",
+        "\n",
+        "A=T\n",
+        "G=-C\n",
+        "\n",
+        "#### Usefulness\n",
+        "+ In polymerase chain reaction (PCR) experiments, the GC-content of short oligonucleotides known as primers is often used to predict their annealing temperature to the template DNA.\n",
+        "+ A higher GC-content level indicates a relatively higher melting temperature.\n",
+        "+ DNA with low GC-content is less stable than DNA with high GC-content\n",
+        "+ High GC content DNA can make it difficult to perform PCR amplication due to difficulty in designing a primer long enough to provide great specifity\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "MuOnlktBZrrJ"
+      },
+      "outputs": [],
+      "source": [
+        "# import GC function from Bio.SeqUtils Package\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "D1KI-3SUZrrJ"
+      },
+      "outputs": [],
+      "source": [
+        "#Create DNA Sequence and run GC function\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "vu32h1WRZrrK"
+      },
+      "outputs": [],
+      "source": [
+        "# Method 2 : create a customized GC Counter function I\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "p-YF5ULMZrrK"
+      },
+      "outputs": [],
+      "source": [
+        "# Method 3 : create a customized GC Counter function II\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "TgQliRz1ZrrM"
+      },
+      "source": [
+        "#### AT Contents in DNA\n",
+        "+ AT content is the percentage of nitrogenous bases in a DNA or RNA molecule that are either Adenine (A) or Thymine (T)\n",
+        "+ AT base pairing yields only 2 hydrogen bonds"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "OyFZwOizZrrM"
+      },
+      "outputs": [],
+      "source": [
+        "# Method : create a customized AT Counter function\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "mUZUzLnOZrrM"
+      },
+      "source": [
+        "#### Melting  Point of DNA\n",
+        "+ Higher GC means high melting point\n",
+        "+ Tm_Wallace: 'Rule of thumb'\n",
+        "+ Tm_GC: Empirical formulas based on GC content. Salt and mismatch corrections can be included.\n",
+        "+ Tm_NN: Calculation based on nearest neighbor thermodynamics. Several tables for DNA/DNA, DNA/RNA and RNA/RNA hybridizations are included. Correction for mismatches, dangling ends, salt concentration and other additives are available."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ekkW3MOTZrrN"
+      },
+      "outputs": [],
+      "source": [
+        "# import MeltingTemp function from from Bio.SeqUtils packages\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "-EYrSaaAZrrO"
+      },
+      "outputs": [],
+      "source": [
+        "#Calculate GC Content from DNA sequence"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install biopython\n",
+        "from Bio.Seq import Seq\n",
+        "from Bio.SeqUtils import MeltingTemp as mt\n",
+        "# The following function calculates the GC skew for a DNA sequence\n",
+        "def GC_skew(seq):\n",
+        "    seq = Seq(seq) # Convert the string to a Bio.Seq object\n",
+        "    g = seq.count('G')\n",
+        "    c = seq.count('C')\n",
+        "    if (g+c) == 0:\n",
+        "        return 0\n",
+        "    return (g - c) / (g + c)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "skaqK0yCNxbz",
+        "outputId": "590b7171-2ece-4d21-b28b-54d10785f6b6"
+      },
+      "execution_count": 131,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: biopython in /usr/local/lib/python3.11/dist-packages (1.85)\n",
+            "Requirement already satisfied: numpy in /usr/local/lib/python3.11/dist-packages (from biopython) (1.26.4)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "GC_skew(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "u3-XfPJBNjqJ",
+        "outputId": "348f5fa9-eaee-4750-909e-2f36ed3c9705"
+      },
+      "execution_count": 128,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.14285714285714285"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 128
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 132,
+      "metadata": {
+        "id": "aSpacMO9ZrrO",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "83029493-6502-4073-b27f-8f5c7dad2e8c"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "48.0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 132
+        }
+      ],
+      "source": [
+        "# check for the melting point using wallace\n",
+        "mt.Tm_Wallace(dna_seq1)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mt.Tm_Wallace(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jHvt6lPSOZ2-",
+        "outputId": "b0c66665-0db0-4f4b-9d99-5ba3416b7377"
+      },
+      "execution_count": 134,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "44.0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 134
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 135,
+      "metadata": {
+        "id": "msjzaTlLZrrO",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "43246a01-19f5-452f-c703-efbe6b5ffd81"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "44.5029020719779"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 135
+        }
+      ],
+      "source": [
+        "# Check for the melting point using GC content\n",
+        "mt.Tm_GC(dna_seq1)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mt.Tm_GC(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "N5mtELGHOqYA",
+        "outputId": "3b94bd84-f6ae-4659-e058-485d5c88873b"
+      },
+      "execution_count": 137,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "39.03623540531123"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 137
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "aJco9MfSZrrO"
+      },
+      "source": [
+        "#### Excersise\n",
+        "+ Which of the following sequence will have the highest GC?\n",
+        "+ contoh 1 = 'ATGCATGGTGCGCGA'\n",
+        "+ contoh 2 = 'ATTTGTGCTCCTGGA'"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "SiTaN7VCZrrR"
+      },
+      "source": [
+        "#### Check for the  Molecular Weight\n",
+        "+ ProtParam.ProteinAnalysis\n",
+        "+ Counter from collections"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 138,
+      "metadata": {
+        "id": "CMEhKdeNZrrR"
+      },
+      "outputs": [],
+      "source": [
+        "# import molecular_weight function from from Bio.SeqUtils packages\n",
+        "from Bio.SeqUtils import molecular_weight\n",
+        "from Bio.Seq import Seq"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 140,
+      "metadata": {
+        "id": "lbh8oeZqZrrR"
+      },
+      "outputs": [],
+      "source": [
+        "#Create DNA Sequence\n",
+        "dna1 = Seq('ATGCATGGTGCGCGA')\n",
+        "dna2 = Seq('ATTTGTGCTCCTGGA')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 141,
+      "metadata": {
+        "id": "bPnO1VUyZrrR",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "a19ce5c1-f722-488a-ed82-d7ad639fc854"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "4712.995199999999"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 141
+        }
+      ],
+      "source": [
+        "# Molecular weight of DNA nucleotide\n",
+        "molecular_weight(dna1)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "molecular_weight(dna2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1SmmsviQPnl6",
+        "outputId": "971d4e7b-815f-41c3-eab0-6a771f6091c2"
+      },
+      "execution_count": 142,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "4653.9565"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 142
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq2.count('A')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "5W3uDoFjPzGH",
+        "outputId": "be1956a3-cdde-4f38-c4e4-b123d13aa7d9"
+      },
+      "execution_count": 143,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "2"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 143
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def gc_content(seq):\n",
+        "  result = float(seq.count('G') + seq.count('C'))/len(seq) * 100\n",
+        "  return result"
+      ],
+      "metadata": {
+        "id": "75fa3sTGP3na"
+      },
+      "execution_count": 144,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content(dna_seq1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BNUCgxF8QJDX",
+        "outputId": "083346e2-ae14-4fc3-9f03-51f283a984b9"
+      },
+      "execution_count": 145,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "60.0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 145
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ybYVelCKQOp0",
+        "outputId": "8140a50f-29f0-474a-e46d-d479b783d550"
+      },
+      "execution_count": 146,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "46.666666666666664"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 146
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def gc_content2(seq):\n",
+        "  gc = [ B for B in seq.upper() if B in 'GC']\n",
+        "  result = float(len(gc))/len(seq * 100)\n",
+        "  return result"
+      ],
+      "metadata": {
+        "id": "ec6U6D24QRZD"
+      },
+      "execution_count": 148,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import Bio.SeqUtils"
+      ],
+      "metadata": {
+        "id": "paEwSu_xSM_4"
+      },
+      "execution_count": 149,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dir(Bio.SeqUtils)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "5Ujuxto0SMrs",
+        "outputId": "f12c5a01-2162-4e63-a557-b4847e1505b9"
+      },
+      "execution_count": 150,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['CodonAdaptationIndex',\n",
+              " 'GC123',\n",
+              " 'GC_skew',\n",
+              " 'IUPACData',\n",
+              " 'MeltingTemp',\n",
+              " 'Seq',\n",
+              " '__builtins__',\n",
+              " '__cached__',\n",
+              " '__doc__',\n",
+              " '__file__',\n",
+              " '__loader__',\n",
+              " '__name__',\n",
+              " '__package__',\n",
+              " '__path__',\n",
+              " '__spec__',\n",
+              " '_gc_values',\n",
+              " 'complement',\n",
+              " 'complement_rna',\n",
+              " 'cos',\n",
+              " 'exp',\n",
+              " 'gc_fraction',\n",
+              " 'log',\n",
+              " 'molecular_weight',\n",
+              " 'nt_search',\n",
+              " 'pi',\n",
+              " 're',\n",
+              " 'seq1',\n",
+              " 'seq3',\n",
+              " 'sin',\n",
+              " 'six_frame_translations',\n",
+              " 'standard_dna_table',\n",
+              " 'translate',\n",
+              " 'xGC_skew']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 150
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from Bio.SeqUtils import MeltingTemp as mt"
+      ],
+      "metadata": {
+        "id": "tsCVOECbSXlZ"
+      },
+      "execution_count": 151,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq1"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "id": "ljj5RlWKShZY",
+        "outputId": "6ef17983-b26b-403d-ade4-39d23ea17933"
+      },
+      "execution_count": 152,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'ATGCATGGTGCGCGA'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 152
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq2"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "id": "ji3iFa_NSko1",
+        "outputId": "3d797996-5f53-48b5-f0c0-17db63d180f5"
+      },
+      "execution_count": 153,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'ATTTGTGCTCCTGGA'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 153
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "GC_skew(dna_seq1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "wR8gNvzzSkmJ",
+        "outputId": "dc460455-01af-4d2c-cb80-291ffca56758"
+      },
+      "execution_count": 154,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.3333333333333333"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 154
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def at_content(seq):\n",
+        "  result = float(seq.cont('A') + seq.count('T'))/len(seq) * 100\n",
+        "  return result"
+      ],
+      "metadata": {
+        "id": "0fkaQXWbSkjs"
+      },
+      "execution_count": 155,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content2(dna_seq1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "eqz6lNObSkg8",
+        "outputId": "09840a91-8b0c-48e9-d500-29bde82e0160"
+      },
+      "execution_count": 159,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.006"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 159
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content2(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "H-KHoL7rSkeg",
+        "outputId": "ced083e6-5577-4b56-b977-55f024d5155a"
+      },
+      "execution_count": 160,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.004666666666666667"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 160
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq1.lower()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "id": "DuFEH4XYSkbI",
+        "outputId": "749fe71b-92e7-4381-82db-942dc7c3ffe6"
+      },
+      "execution_count": 161,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'atgcatggtgcgcga'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 161
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq2.lower()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "id": "qqNnFBxiSkWd",
+        "outputId": "0b0f8176-de3b-4f2f-fb28-c2c2a8c30d51"
+      },
+      "execution_count": 162,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'atttgtgctcctgga'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 162
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from Bio.SeqUtils import GC_skew"
+      ],
+      "metadata": {
+        "id": "zM1M1zqKTtI2"
+      },
+      "execution_count": 163,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq1 = Seq('ATGCATGGTGCGCGA')\n",
+        "dna_seq2 = Seq('ATTTGTGCTCCTGGA')"
+      ],
+      "metadata": {
+        "id": "7TKGj51fTtFu"
+      },
+      "execution_count": 164,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "GC_skew(dna_seq1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "LmMveCh8UX1S",
+        "outputId": "54c7a04a-4540-4610-cb45-242726479262"
+      },
+      "execution_count": 165,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[0.3333333333333333]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 165
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "GC_skew(dna_seq2)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qVl2d2Z9TtCh",
+        "outputId": "c671be90-2eb6-44a0-8110-2016920b66da"
+      },
+      "execution_count": 166,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[0.14285714285714285]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 166
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "dna_seq1.count('A')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jshf3G6dTs_C",
+        "outputId": "40f322ac-9025-47f8-d9d1-54da822cc62d"
+      },
+      "execution_count": 167,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "3"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 167
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content2('ATGCATGGTGCGCGA')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Tt6_7VDeTs7t",
+        "outputId": "5889c0ce-abf5-4a28-fde8-c836436eda66"
+      },
+      "execution_count": 168,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.006"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 168
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gc_content2('ATTTGTGCTCCTGGA')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "rduds-m9Ts49",
+        "outputId": "61d23350-eb83-452e-9bb0-ef063f7f2467"
+      },
+      "execution_count": 169,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.004666666666666667"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 169
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "WmI5s1b_Ts1P"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "7ZmkWKuKTswN"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "PilRBmMZTssw"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "Q3eGwBsuZrrS"
+      },
+      "source": [
+        "## Lab 3 : Protein Synthesis\n",
+        "+ Protein synthesis is how cells make proteins using 2 stages\n",
+        " - Transcription\n",
+        " - Translation\n",
+        "\n",
+        "![](https://drive.google.com/uc?export=view&id=1q90fm_nu4SAr80Dly1NJ7aj63J4FjV24)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "hHLcfSyiZrrS"
+      },
+      "outputs": [],
+      "source": [
+        "#Create DNA Sequence and calculate the length\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "J2ukl3gCZrrT"
+      },
+      "outputs": [],
+      "source": [
+        "# Calculate DNA sequence Complement\n",
+        "# Be mind that AT = 2 hydrogen bonds GC = 3 hydrogen bonds\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "hqYFv8wSZrrT"
+      },
+      "outputs": [],
+      "source": [
+        "# Calculate DNA sequence reverse complement\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Gu2dIvuvZrrT"
+      },
+      "outputs": [],
+      "source": [
+        "# custom function to Calculate DNA sequence complement\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "yA_D5o6DZrrT"
+      },
+      "source": [
+        "### Protein Synthesis\n",
+        "![](https://drive.google.com/uc?export=view&id=1cwvbv3t0iU1-UmQhgS2L845vMUxajUHs)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "GsgRusiWZrrU"
+      },
+      "outputs": [],
+      "source": [
+        "dna_seq"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "tiKJExt2ZrrU"
+      },
+      "outputs": [],
+      "source": [
+        "# Transcription : DNA to mRNA (Writing the message)\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "sVEJAeGBZrrU"
+      },
+      "outputs": [],
+      "source": [
+        "mRNA = dna_seq.transcribe()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "xg3-0F37ZrrU"
+      },
+      "outputs": [],
+      "source": [
+        "# Translation : mRNA to Protein/Amino Acid\n",
+        "# Method 1\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "palJYLEZZrrU"
+      },
+      "outputs": [],
+      "source": [
+        "# Method 2\n",
+        "# Direct translation of DNA to Amino Acid\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "PRxq2dyTZrrV"
+      },
+      "outputs": [],
+      "source": [
+        "# Create our custom stop codon symbol\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "sgzmAKWgZrrV"
+      },
+      "outputs": [],
+      "source": [
+        "# Back Transcription : mRNA to DNA\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "YLlM86sUZrrV"
+      },
+      "outputs": [],
+      "source": [
+        "# Join the steps\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "dyGOIPeYZrrW"
+      },
+      "outputs": [],
+      "source": [
+        "# Convert Amino Acid to 3 letter codon"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "21OdgerBZrrW"
+      },
+      "outputs": [],
+      "source": [
+        "# Convert from 3 letters to 1 letter\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3J1GwxgqZrrW"
+      },
+      "source": [
+        "### Amino Acids Codon Table\n",
+        "![](https://github.com/AryaWiguna011/Tugas/blob/main/aminoacidchart1.png?raw=1)\n",
+        "![](https://drive.google.com/uc?export=view&id=1NArwpAUNnCRm980LMHnrVO24MUXNTgy3)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "xGhgWjN3ZrrX"
+      },
+      "outputs": [],
+      "source": [
+        "# View our codonTable\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "v9GU3KRyZrrX"
+      },
+      "outputs": [],
+      "source": [
+        "# check methods  & attributes\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "f-gN7v-gZrrX"
+      },
+      "outputs": [],
+      "source": [
+        "# DNA codon table\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "xvumKRYHZrrX"
+      },
+      "outputs": [],
+      "source": [
+        "# RNA codon table\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "drVwNJGbZrro"
+      },
+      "source": [
+        "### 3D Structure of Protein (OPTIONAL)\n",
+        "+ File Format\n",
+        " - pdb :PDBParser() legacy\n",
+        " - cif :MMCIFParser() recent\n",
+        "\n",
+        "+ links\n",
+        " - https://www.ncbi.nlm.nih.gov/Structure/pdb/6LU7\n",
+        " - https://www.rcsb.org/search\n",
+        " - Protein Data Bank\n",
+        "\n",
+        "+ Packages\n",
+        " - pip install nglview\n",
+        " - jupyter-nbextension enable nglview --py --sys-prefix\n",
+        " - nglview enable\n",
+        " - jupyter-labextension install @jupyter-widget/jupyterlab-manager\n",
+        " - jupyter-labextension install nglview-js-widgets"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "81-rpvBAZrro",
+        "scrolled": true
+      },
+      "outputs": [],
+      "source": [
+        "# Reading PDB Files\n",
+        "\n",
+        "# Create a parser\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "4mM1Wa-XZrro"
+      },
+      "outputs": [],
+      "source": [
+        "# The overall layout of a Structure object follows the so-called SMCRA\n",
+        "# (Structure/Model/Chain/Residue/Atom) architecture:\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "f8Ll7c2IZrrp"
+      },
+      "outputs": [],
+      "source": [
+        "# Models in the structure\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "pOvsUnwhZrrp"
+      },
+      "outputs": [],
+      "source": [
+        "# Check for chains\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ZZFBl355Zrrp"
+      },
+      "outputs": [],
+      "source": [
+        "# Check for Residue\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "xM-i5O_bZrrp"
+      },
+      "outputs": [],
+      "source": [
+        "# Check for atoms\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Met0Uk8qZrrp"
+      },
+      "outputs": [],
+      "source": [
+        "!pip install py3Dmol\n",
+        "import py3Dmol"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "UWzCVzZnZrrq"
+      },
+      "outputs": [],
+      "source": [
+        "view1 = py3Dmol.view(query='pdb:6LU7')\n",
+        "view1.setStyle({'cartoon':{'color':'spectrum'}})"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "1ZqxBqIeZrrq",
+        "outputId": "c71a9ef2-105e-4ff0-fa70-29053443bb6f"
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/3dmoljs_load.v0": "<div id=\"3dmolviewer_16636534169736273\"  style=\"position: relative; width: 640px; height: 480px\">\n        <p id=\"3dmolwarning_16636534169736273\" style=\"background-color:#ffcccc;color:black\">You appear to be running in JupyterLab (or JavaScript failed to load for some other reason).  You need to install the 3dmol extension: <br>\n        <tt>jupyter labextension install jupyterlab_3dmol</tt></p>\n        </div>\n<script>\n\nvar loadScriptAsync = function(uri){\n  return new Promise((resolve, reject) => {\n    var tag = document.createElement('script');\n    tag.src = uri;\n    tag.async = true;\n    tag.onload = () => {\n      resolve();\n    };\n  var firstScriptTag = document.getElementsByTagName('script')[0];\n  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\n});\n};\n\nif(typeof $3Dmolpromise === 'undefined') {\n$3Dmolpromise = null;\n  $3Dmolpromise = loadScriptAsync('https://cdn.jsdelivr.net/npm/3dmol@latest/build/3Dmol-min.min.js');\n}\n\nvar viewer_16636534169736273 = null;\nvar warn = document.getElementById(\"3dmolwarning_16636534169736273\");\nif(warn) {\n    warn.parentNode.removeChild(warn);\n}\n$3Dmolpromise.then(function() {\nviewer_16636534169736273 = $3Dmol.createViewer($(\"#3dmolviewer_16636534169736273\"),{backgroundColor:\"white\"});\n$3Dmol.download(\"pdb:4ZS6\", viewer_16636534169736273, {}, function() {\nviewer_16636534169736273.zoomTo();\n\tviewer_16636534169736273.setStyle({\"cartoon\": {\"color\": \"spectrum\"}});\nviewer_16636534169736273.render();\n})\n});\n</script>",
+            "text/html": [
+              "<div id=\"3dmolviewer_16636534169736273\"  style=\"position: relative; width: 640px; height: 480px\">\n",
+              "        <p id=\"3dmolwarning_16636534169736273\" style=\"background-color:#ffcccc;color:black\">You appear to be running in JupyterLab (or JavaScript failed to load for some other reason).  You need to install the 3dmol extension: <br>\n",
+              "        <tt>jupyter labextension install jupyterlab_3dmol</tt></p>\n",
+              "        </div>\n",
+              "<script>\n",
+              "\n",
+              "var loadScriptAsync = function(uri){\n",
+              "  return new Promise((resolve, reject) => {\n",
+              "    var tag = document.createElement('script');\n",
+              "    tag.src = uri;\n",
+              "    tag.async = true;\n",
+              "    tag.onload = () => {\n",
+              "      resolve();\n",
+              "    };\n",
+              "  var firstScriptTag = document.getElementsByTagName('script')[0];\n",
+              "  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\n",
+              "});\n",
+              "};\n",
+              "\n",
+              "if(typeof $3Dmolpromise === 'undefined') {\n",
+              "$3Dmolpromise = null;\n",
+              "  $3Dmolpromise = loadScriptAsync('https://cdn.jsdelivr.net/npm/3dmol@latest/build/3Dmol-min.min.js');\n",
+              "}\n",
+              "\n",
+              "var viewer_16636534169736273 = null;\n",
+              "var warn = document.getElementById(\"3dmolwarning_16636534169736273\");\n",
+              "if(warn) {\n",
+              "    warn.parentNode.removeChild(warn);\n",
+              "}\n",
+              "$3Dmolpromise.then(function() {\n",
+              "viewer_16636534169736273 = $3Dmol.createViewer($(\"#3dmolviewer_16636534169736273\"),{backgroundColor:\"white\"});\n",
+              "$3Dmol.download(\"pdb:4ZS6\", viewer_16636534169736273, {}, function() {\n",
+              "viewer_16636534169736273.zoomTo();\n",
+              "\tviewer_16636534169736273.setStyle({\"cartoon\": {\"color\": \"spectrum\"}});\n",
+              "viewer_16636534169736273.render();\n",
+              "})\n",
+              "});\n",
+              "</script>"
+            ]
+          },
+          "metadata": {},
+          "output_type": "display_data"
+        },
+        {
+          "data": {
+            "text/plain": [
+              "<py3Dmol.view at 0x2818c9d1b48>"
+            ]
+          },
+          "execution_count": 40,
+          "metadata": {},
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "view2 = py3Dmol.view(query='pdb:4ZS6')\n",
+        "view2.setStyle({'cartoon':{'color':'spectrum'}})"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qB7JOs0EZrrY"
+      },
+      "source": [
+        "## Lab 4 Sequence Alignment"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "mFZqUCpMZrrY"
+      },
+      "source": [
+        "### Sequence Alignment\n",
+        "+ Sequence alignment is a method of arranging sequences of DNA, RNA, or Amino Acids or proteins to identify regions of similarity.\n",
+        "+ The similarity being identified, may be a result of functional, structural, or evolutionary relationships between the sequences.\n",
+        "+ It is useful in identifying similarity and homology\n",
+        "+ Homology: descent from a common ancestor or source.\n",
+        "\n",
+        "#### Terms\n",
+        "+ Matches\n",
+        "+ Mismatches\n",
+        "+ Gap\n",
+        "\n",
+        "![](https://drive.google.com/uc?export=view&id=1xjcoAfhvq0JY-Oc7EiVH-syEe5qamdrw)\n",
+        "\n",
+        "#### Alignment Types\n",
+        "+ Global alignment: finds the best concordance/agreement betwenn all characters in two sequences\n",
+        "    + Mostly from end to end\n",
+        "    + By Needle\n",
+        "+ Local Alignment: finds just the subsequences that align the best\n",
+        "    + In this method, we consider subsequences within each of the 2 sequences and try to match them to obtain the best alignment.\n",
+        "    + By Water\n",
+        "\n",
+        "![](https://drive.google.com/uc?export=view&id=1NRwK49u9zjKN9KjiJZyBprlYFr6PPWe5)\n",
+        "\n",
+        "#### When to use local alignment\n",
+        "\n",
+        "+ 2 sequences have a small matched region\n",
+        "+ 2 Sequences are of different lengths\n",
+        "+ Overlapping sequences\n",
+        "+ One sequences is a subsequences of the other\n",
+        "\n",
+        "+ Blast\n",
+        "+ Emboss"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9moTFXCKZrrY"
+      },
+      "outputs": [],
+      "source": [
+        "# import the required functions (pairwise2 and format_alignment) from Bio packages\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "mX2RIvV1ZrrZ"
+      },
+      "outputs": [],
+      "source": [
+        "# create example sequences\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "1GShHX88ZrrZ"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform Global Alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "bO4vD5ovZrrZ"
+      },
+      "outputs": [],
+      "source": [
+        "# display the alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "joqq3YqPZrrZ"
+      },
+      "outputs": [],
+      "source": [
+        "# View all possible alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "DPK31YekZrra"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform Local Alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "GxV_shdIZrra"
+      },
+      "outputs": [],
+      "source": [
+        "# View all possible alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "MW8XNhLZZrra"
+      },
+      "outputs": [],
+      "source": [
+        "# Get the alignment by only the score\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "xvz5rYMRZrra"
+      },
+      "source": [
+        "#### Check for similarity or percentage of similarity using Alignment\n",
+        "+ fraction of nucleotides that is the same/ total number of nucleotides * 100%\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "34J5HokSZrrb"
+      },
+      "outputs": [],
+      "source": [
+        "# Calculate the global alignment score\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "oDG-4cTNZrrb"
+      },
+      "outputs": [],
+      "source": [
+        "# Get the local alignment by only the score\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "r1pe80qpZrrc"
+      },
+      "source": [
+        "### Find out all the possible global alignments with the maximum similarity score\n",
+        "+ Matching characters :2 points,\n",
+        "+ Each mismatching character: -1 point\n",
+        "+ 0.5 points are deducted when opening a gap,\n",
+        "+ 0.1 points are deducted when extending it."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "BYkNrR0UZrrc"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform GLobal alignment with maximum similarity score\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Vp86oIRWZrrc"
+      },
+      "outputs": [],
+      "source": [
+        "# View all possible alignment\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jyzUW-AwZrrc"
+      },
+      "outputs": [],
+      "source": [
+        "# View all alignment score\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "qJhF7AatZrrd"
+      },
+      "source": [
+        "### Checking for Similarity Between Sequences\n",
+        "+ Sequence Alignment\n",
+        "    - Dynamic Programming (Global/Local/(needle/water))\n",
+        "    - Dotplot\n",
+        "    \n",
+        "+ Similarity: resemblance between two sequences in comparison\n",
+        "    - the minimal number of edit operations (inserts, deletes, and substitutions) in order to transform the one sequence into an exact copy of the other sequence being aligned\n",
+        "    - distance\n",
+        "+ Identity: the number of charaters that match EXACTLY between two different sequences\n",
+        "    + Gaps are not counted\n",
+        "    + The measurement is relational to the shorter of the two sequences.\n",
+        "    + This has the effect that sequence identity is not transitive, i.e.\n",
+        "    + if sequence A=B and B=C then A is not necessarily equal C (in terms of the identity distance measure) :\n",
+        "\n",
+        "\n",
+        " - A: AAGGCTT\n",
+        " - B: AAGGC\n",
+        " - C:AAGGCAT"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "JUcFkdiyZrrd"
+      },
+      "source": [
+        "+ Here identity(A,B)=100% (5 identical nucleotides / min(length(A),length(B))).\n",
+        "Identity(B,C)=100%, but identity(A,C)=85% ((6 identical nucleotides / 7)). So 100% identity does not mean two sequences are the same.\n",
+        "+ Sequence similarity is first of all a general description of a relationship but nevertheless its more or less common practice to define similarity as an optimal matching problem (for sequence alignments or unless defined otherwise).\n",
+        "+ Hereby, the optimal matching algorithm finds the minimal number of edit operations (inserts, deletes, and substitutions) in order to transform the one sequence into an exact copy of the other sequence being aligned (edit distance).\n",
+        "+ Using this, the percentage sequence similarity of the examples above are sim(A,B)=60%, sim(B,C)=60%, sim(A,C)=86% (semi-global, sim=1-(edit distance/unaligned length of the shorter sequence)). But there are other ways to define similarity between two objects (e.g. using tertiary strucure of proteins).\n",
+        "An then you might start to conclude from similarity to homology, but this was already covered sufficiently\n",
+        "+ read more https://www.researchgate.net/post/Homology_similarity_and_identity-can_anyone_help_with_these_terms"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "1wKp0HNYZrrd"
+      },
+      "outputs": [],
+      "source": [
+        "# Import necessary package/ function and Create 3 example sequences\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "bu0tTnl3Zrre"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform Local Alignment and print the scores\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "EZF4Y45KZrrf"
+      },
+      "outputs": [],
+      "source": [
+        "# Check the concept : Is 100? similarity score means the two DNA sequences are exact match?\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "zIuwMA0IZrrf"
+      },
+      "source": [
+        "#### Hamming distance: shows how many places 2 strings differ\n",
+        "+ Hamming distance between two strings of equal length is the number of positions at which the corresponding symbols are different.\n",
+        "+ In other words, it measures the minimum number of substitutions required to change one string into the other, or the minimum number of errors that could have transformed one string into the othe\n",
+        "+ It is used for error detection or error correction\n",
+        "+ It is used to quantify the similarity of DNA sequences,\n",
+        "+ For checking the edit distance\n",
+        " - edit distance is a way of quantifying how dissimilar two strings (e.g., words) are to one another by counting the minimum number of operations required to transform one string into the other.\n",
+        " - eg Levenshtein distance\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "IUkYPKwvZrrg"
+      },
+      "outputs": [],
+      "source": [
+        "# Create example sequences\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "GggjZ-bBZrrg"
+      },
+      "outputs": [],
+      "source": [
+        "# Define Hamming Distance function\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "oO2SG07XZrrg"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform Hamming Distance calculation\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "vL8Zb07dZrrh"
+      },
+      "source": [
+        "#### Levenshtein Distance\n",
+        "\n",
+        "+ This method was invented in 1965 by the Russian Mathematician Vladimir Levenshtein (1935-2017).\n",
+        "+ The distance value describes the minimal number of deletions, insertions, or substitutions that are required to transform one string (the source) into another (the target).\n",
+        "+ Unlike the Hamming distance, the Levenshtein distance works on strings with an unequal length"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "GnV34nMpZrrh"
+      },
+      "outputs": [],
+      "source": [
+        "# Install Levenshtein Distance library\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "4pYUA-pMZrri"
+      },
+      "outputs": [],
+      "source": [
+        "# Perform Levenshtein Distance calculation\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "jIRoeoEHZrri"
+      },
+      "source": [
+        "#### Sequence Alignment using Dotplot"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9ehFpOODZrri"
+      },
+      "source": [
+        "### Dot Plot\n",
+        "+ A dot plot is a graphical method that allows the comparison of two biological sequences\n",
+        "and identify regions of close similarity between them.\n",
+        "+ Simplest method - put a dot wherever\n",
+        "sequences are identical\n",
+        "+ Dot plots compare two sequences by organizing one sequence on the x-axis, and another on the y-axis, of a plot.\n",
+        "+ When the residues of both sequences match at the same location on the plot, a dot is drawn at the corresponding position\n",
+        "\n",
+        "#### usefulness\n",
+        "+ Dot plots can also be used to visually inspect sequences for\n",
+        "  - direct or inverted repeats\n",
+        "  - regions with low sequence complexity.\n",
+        "  - Similar regions\n",
+        "  - Repeated sequences\n",
+        "  - Sequence rearrangements\n",
+        "  - RNA structures\n",
+        "  - Gene order\n",
+        "\n",
+        "+ Link :https://stackoverflow.com/questions/40822400/how-to-create-a-dotplot-of-two-dna-sequence-in-python"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "YHekyWbrZrri"
+      },
+      "outputs": [],
+      "source": [
+        "# Create Dot Plot function\n",
+        "\n",
+        "#experiment with character choice"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Go8ZV6S6Zrrj"
+      },
+      "outputs": [],
+      "source": [
+        "# Create 2 DNA sequence examples\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "3vedlnj2Zrrj"
+      },
+      "outputs": [],
+      "source": [
+        "# Run Dot Plot function\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "MUKpqIcZZrrj"
+      },
+      "outputs": [],
+      "source": [
+        "# Indentical show diagonal\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "788PZTM9Zrrk"
+      },
+      "outputs": [],
+      "source": [
+        "#Import Numpy & Matplotlib libraries to calculate and plot the result\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "_59o6rbFZrrk"
+      },
+      "outputs": [],
+      "source": [
+        "# Create a fancy plot\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "v1G58TPwZrrk"
+      },
+      "outputs": [],
+      "source": [
+        "# Convert to Function\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "PhtWWYUiZrrk"
+      },
+      "outputs": [],
+      "source": [
+        "# Run the updated Dot Plot function\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jE2FA1etZrrk"
+      },
+      "outputs": [],
+      "source": [
+        "# Create a sample case and Run the updated Dot Plot function\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "PDeQottoZrrl"
+      },
+      "source": [
+        "## Lab 5 Working with Biological Database\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "GjNRXAl8uNmE"
+      },
+      "source": [
+        "\n",
+        "### Preparing a Genomic Research (OPTIONAL)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "cOJ0DtvyZrrm"
+      },
+      "outputs": [],
+      "source": [
+        "# Spelling correction\n",
+        "from Bio import Entrez\n",
+        "Entrez.email = 'learnbiopython@gmail.com'\n",
+        "sciNames = ['Bos gaurus']"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "U5bTjGgWZrrm"
+      },
+      "outputs": [],
+      "source": [
+        "record = Entrez.read(Entrez.espell(db='pmc', term='biopythonn'))\n",
+        "print(type(record))\n",
+        "print(record.keys())\n",
+        "for key in record.keys():\n",
+        "  print (key, ':', record[key])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "bDvGEFLOZrrm"
+      },
+      "outputs": [],
+      "source": [
+        "# Research Collection\n",
+        "record = Entrez.read(Entrez.esearch(db='pmc', term='biopython', retmax=100))\n",
+        "print(type(record))\n",
+        "print(record.keys())\n",
+        "for key in record.keys():\n",
+        "  print (key, ':', record[key])"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "k88cKwpAZrrm"
+      },
+      "outputs": [],
+      "source": [
+        "biopythonID = record['IdList']\n",
+        "print(biopythonID)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "PimGNfSxZrrm"
+      },
+      "outputs": [],
+      "source": [
+        "for ID in biopythonID[:10]:\n",
+        "  summary = Entrez.read(Entrez.esummary(db='pmc', id=ID))\n",
+        "  for handle in summary:\n",
+        "    print(handle['Title'], '\\t', handle['FullJournalName'], '\\t', handle['DOI'])"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "XZTTC5wlZrrn"
+      },
+      "source": [
+        "### Inquiry and Exporting Genomic Data from NCBI"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "6ycQSI7uZrrn"
+      },
+      "outputs": [],
+      "source": [
+        "#examples of Homo sapiens Genes Research in NCBI Nucleotide database\n",
+        "\n",
+        "# Three examples of Homo sapiens Genes\n",
+        "# OCA2 : malenosonal transmembrane protein (eye color gene)\n",
+        "# idtype = 'acc' means we want to know the Accession Number.\n",
+        "\n",
+        "record = Entrez.read(Entrez.esearch(db='nucleotide',\n",
+        "                                    term='OCA2[Gene Name] AND Homo sapiens [Organism] AND refSeq[Keyword]',\n",
+        "                                    retmax=100, idtype='acc'))\n",
+        "print(record)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "5dasGPcmZrrn"
+      },
+      "outputs": [],
+      "source": [
+        "#examples of Homo Sapiens Genes efetch in NCBI Nucleotide database for mRNA only\n",
+        "#NM_ in Accession Number means reference mRNA\n",
+        "#NC_ in Accession Number means Genomic Data\n",
+        "\n",
+        "for ID in record['IdList']:\n",
+        "  if 'NM_' in ID:\n",
+        "    fetch = Entrez.efetch(db='nucleotide', id=ID, rettype='fasta', retmode='text')\n",
+        "    readFetch = fetch.readline()\n",
+        "    print(readFetch)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "xG-nIM7oZrrn"
+      },
+      "outputs": [],
+      "source": [
+        "print(record)\n",
+        "counter = 0\n",
+        "fetchList = []\n",
+        "for ID in record['IdList']:\n",
+        "  if 'NM_' in ID:\n",
+        "    counter += 1\n",
+        "    fetch = Entrez.efetch(db='nucleotide',\n",
+        "                          id=ID,\n",
+        "                          rettype='fasta',\n",
+        "                          retmode='text')\n",
+        "    readFetch = fetch.readline()\n",
+        "    fetchList.append(readFetch)\n",
+        "\n",
+        "print(fetchList)\n",
+        "print(len(fetchList))"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "7NUvHHEqZrrn"
+      },
+      "outputs": [],
+      "source": [
+        "#examples of Homo sapiens HBB mRNA esearch in NCBI Nucleotide database\n",
+        "\n",
+        "from Bio import Entrez\n",
+        "Entrez.email = 'learnbiopython@gmail.com'\n",
+        "\n",
+        "# HBB : hemoglobin subunit beta\n",
+        "# idtype = 'acc' means we want to know the Accession Number.\n",
+        "# NM_ in Accession Number means reference mRNA (#NC_ means Genomic Data)\n",
+        "# rettype='fasta' can be changed to 'gb' for GenBank files\n",
+        "# 'a+' means it will add more fasta data to the saved file, not replace the previous one\n",
+        "\n",
+        "record = Entrez.read(Entrez.esearch(db='nucleotide',\n",
+        "                                    term='HBB[Gene Name] AND refSeq[Keyword]',\n",
+        "                                    retmax=2000, idtype='acc'))\n",
+        "print(record)\n",
+        "counter = 0\n",
+        "fetchList = []\n",
+        "for ID in record['IdList']:\n",
+        "  if 'NM_' in ID:\n",
+        "    counter += 1\n",
+        "    fetch = Entrez.efetch(db='nucleotide',\n",
+        "                          id=ID,\n",
+        "                          rettype='fasta',\n",
+        "                          retmode='text')\n",
+        "    readFetch = fetch.read()\n",
+        "    fetchList.append(readFetch)\n",
+        "\n",
+        "print(fetchList)\n",
+        "print(len(fetchList))\n",
+        "# for files in fetchList:\n",
+        "#   with open ('HBB-NC.fasta','a+') as savedFile:\n",
+        "#     savedFile.write(files)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Fskgj3HnZrro"
+      },
+      "outputs": [],
+      "source": [
+        " # Change term='OCA2[Gene Name] AND Homo sapiens [Organism] AND refSeq[Keyword]'"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "3dlaOjanZrrq"
+      },
+      "source": [
+        "## Lab 6 Working with Common File Formats\n",
+        " + FASTA\n",
+        " + GenBank\n",
+        " + PDB\n",
+        " + etc\n",
+        "\n",
+        "+ Sample https://www.ncbi.nlm.nih.gov/nuccore/MN908947"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "pHf34iXjZrrr"
+      },
+      "outputs": [],
+      "source": [
+        "# Reading FASTA file format\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "kiwb_EeuZrrr"
+      },
+      "outputs": [],
+      "source": [
+        "# Load and print A FASTA file format\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "zhRWSqgsZrrr"
+      },
+      "outputs": [],
+      "source": [
+        "# Reading the sequence in FASTA file format\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "2HuLU7f-Zrrs"
+      },
+      "outputs": [],
+      "source": [
+        "# Read and Load a GenBank File format\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "qcUhKaf0Zrrs"
+      },
+      "outputs": [],
+      "source": [
+        "# Reading the sequence in GenBank format\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "D00CjP6mZrrs"
+      },
+      "outputs": [],
+      "source": [
+        "### Writing Data (OPTIONAL)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "BbLQKa4GLX2Y"
+      },
+      "source": [
+        "### Protein Explanatory Data Analysis (Optional)\n",
+        "\n",
+        "This in a summary and practical example from what we have done in the previous part\n",
+        "\n",
+        "1.   Read a .fasta DNA sequence file\n",
+        "2.   do Transcriptiaon and Translation\n",
+        "3.   do basic Explanatory Data Analysis"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "lacpSOb3EWi4"
+      },
+      "outputs": [],
+      "source": [
+        "# Reading our fasta file\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "Z5PuRx8HHrO7"
+      },
+      "outputs": [],
+      "source": [
+        "# Transcription\n",
+        "# DNA to mRNA = Writing the msg"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "9NJzWjv-MoCX"
+      },
+      "outputs": [],
+      "source": [
+        "# Longest Seq AA before a stop codon\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "yT67hDKaLX2a"
+      },
+      "outputs": [],
+      "source": [
+        "# Explanatory Data Analysis using Pandas\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "OXZniGTOZrrs"
+      },
+      "source": [
+        "## EXAM QUESTION : Sequence Analysis and Protein Synthesis of Covid-19\n",
+        "![](https://github.com/AryaWiguna011/Tugas/blob/main/covid19.png?raw=1)\n",
+        "![](https://drive.google.com/uc?export=view&id=13x8b147yDMYWL-jKowfsSLE3J2FcTEOk)\n",
+        "\n",
+        "### TASK PPTI\n",
+        "+ Explain how to obtain the Covid-19 Sequence from Biological Database (20%)\n",
+        "+ Read and the Biological Data and Explain the information (FASTA) (20%)\n",
+        "+ Conduct Sequence Analysis (20%)\n",
+        "+ Conduct Protein Synthesis & Protein Structure Analysis (20%)\n",
+        "+ Write Scientific Practicum Report (20%)\n",
+        "+ Run Basic Data Science Analysis (Extra Score 10%!)\n",
+        "\n",
+        "### TASK Regular\n",
+        "+ Explain how to obtain the Covid-19 Sequence from Biological Database (20%)\n",
+        "+ Read and the Biological Data and Explain the information (FASTA) (20%)\n",
+        "+ Conduct Sequence Analysis (20%)\n",
+        "+ Conduct Protein Synthesis (20%)\n",
+        "+ Write Scientific Practicum Report (20%)\n",
+        "+ Run Basic Data Science Analysis (Extra Score 10%!)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "QV52AzAGZrrs"
+      },
+      "outputs": [],
+      "source": [
+        "# Id MT385497.1\n",
+        "# https://www.ncbi.nlm.nih.gov/nuccore/MT385497.1?report=fasta&log$=seqview\n",
+        "\n",
+        "!pip install biopython\n",
+        "from Bio import SeqIO\n",
+        "\n",
+        "# Reading our fasta file\n",
+        "covid_record = SeqIO.read(\"covid_sequence_MT385497.fasta\",\"fasta\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "yjCBA4r5Zrr1"
+      },
+      "source": [
+        "## Last update 30/09/2022\n",
+        "Fabian S Pramudya, Ph.D  \n",
+        "fabian.pramudya@binus.edu\n",
+        "\n",
+        "(+852)60373436"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "iFmyNizrZrr1"
+      },
+      "outputs": [],
+      "source": []
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.7.4"
+    },
+    "toc": {
+      "base_numbering": 1,
+      "nav_menu": {},
+      "number_sections": true,
+      "sideBar": true,
+      "skip_h1_title": false,
+      "title_cell": "Table of Contents",
+      "title_sidebar": "Contents",
+      "toc_cell": false,
+      "toc_position": {},
+      "toc_section_display": true,
+      "toc_window_display": false
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
